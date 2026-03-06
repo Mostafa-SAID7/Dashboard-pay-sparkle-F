@@ -6,8 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import PaginationControls from "@/components/ui/PaginationControls";
 import { accounts as initialAccounts, formatCurrency, type Account } from "@/lib/mockData";
 import { toast } from "sonner";
+
+const PAGE_SIZE = 5;
 
 const UsersAccounts = () => {
   const [users, setUsers] = useState<Account[]>(initialAccounts);
@@ -17,6 +20,7 @@ const UsersAccounts = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sortField, setSortField] = useState<"name" | "balance">("name");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+  const [page, setPage] = useState(1);
 
   const filtered = users
     .filter(u => {
@@ -29,6 +33,9 @@ const UsersAccounts = () => {
       if (sortField === "balance") return (a.balance - b.balance) * mult;
       return a.name.localeCompare(b.name) * mult;
     });
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,6 +59,7 @@ const UsersAccounts = () => {
         lastLogin: new Date().toISOString().split("T")[0],
       };
       setUsers(prev => [newUser, ...prev]);
+      setPage(1);
       toast.success("User added");
     }
     setDialogOpen(false);
@@ -70,7 +78,7 @@ const UsersAccounts = () => {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Users & Accounts</h1>
           <p className="text-muted-foreground mt-1">Manage users, roles, and account balances</p>
@@ -116,9 +124,9 @@ const UsersAccounts = () => {
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="glass-card rounded-xl p-4 flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search users..." className="pl-9" />
+          <Input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder="Search users..." className="pl-9" />
         </div>
-        <Select value={roleFilter} onValueChange={setRoleFilter}>
+        <Select value={roleFilter} onValueChange={(v) => { setRoleFilter(v); setPage(1); }}>
           <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Roles</SelectItem>
@@ -148,7 +156,7 @@ const UsersAccounts = () => {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((u, i) => (
+              {paginated.map((u, i) => (
                 <motion.tr
                   key={u.id}
                   initial={{ opacity: 0 }}
@@ -199,6 +207,7 @@ const UsersAccounts = () => {
             </tbody>
           </table>
         </div>
+        <PaginationControls currentPage={page} totalPages={totalPages} onPageChange={setPage} totalItems={filtered.length} pageSize={PAGE_SIZE} />
       </motion.div>
     </div>
   );

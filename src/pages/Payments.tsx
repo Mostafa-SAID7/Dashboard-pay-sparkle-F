@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import StatusBadge from "@/components/ui/StatusBadge";
+import PaginationControls from "@/components/ui/PaginationControls";
 import { transactions as initialTxns, formatCurrency, type Transaction, type PaymentType, type PaymentStatus } from "@/lib/mockData";
 import { toast } from "sonner";
 
@@ -23,12 +24,15 @@ const paymentSchema = z.object({
 
 type PaymentForm = z.infer<typeof paymentSchema>;
 
+const PAGE_SIZE = 5;
+
 const Payments = () => {
   const [txns, setTxns] = useState<Transaction[]>(initialTxns);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<PaymentType | "all">("all");
   const [statusFilter, setStatusFilter] = useState<PaymentStatus | "all">("all");
   const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<PaymentForm>({
     resolver: zodResolver(paymentSchema),
@@ -48,11 +52,11 @@ const Payments = () => {
       reference: `${data.type}-${Date.now()}`,
     };
     setTxns([newTx, ...txns]);
+    setPage(1);
     toast.success("Payment initiated", { description: `${data.type} payment of ${formatCurrency(data.amount, data.currency)} submitted.` });
     reset();
     setOpen(false);
 
-    // Simulate status change
     setTimeout(() => {
       setTxns(prev => prev.map(t => t.id === newTx.id ? { ...t, status: Math.random() > 0.2 ? "success" : "failed" } : t));
       toast.info("Payment processed", { description: `${newTx.reference} has been processed.` });
@@ -66,9 +70,12 @@ const Payments = () => {
     return true;
   });
 
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Payments</h1>
           <p className="text-muted-foreground mt-1">Initiate and track payment transactions</p>
@@ -130,9 +137,9 @@ const Payments = () => {
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="glass-card rounded-xl p-4 flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search transactions..." className="pl-9" />
+          <Input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder="Search transactions..." className="pl-9" />
         </div>
-        <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as PaymentType | "all")}>
+        <Select value={typeFilter} onValueChange={(v) => { setTypeFilter(v as PaymentType | "all"); setPage(1); }}>
           <SelectTrigger className="w-32"><Filter className="w-3 h-3 mr-1" /><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Types</SelectItem>
@@ -141,7 +148,7 @@ const Payments = () => {
             <SelectItem value="WPS">WPS</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as PaymentStatus | "all")}>
+        <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v as PaymentStatus | "all"); setPage(1); }}>
           <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
@@ -164,7 +171,7 @@ const Payments = () => {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((tx, i) => (
+              {paginated.map((tx, i) => (
                 <motion.tr
                   key={tx.id}
                   initial={{ opacity: 0 }}
@@ -193,6 +200,7 @@ const Payments = () => {
         {filtered.length === 0 && (
           <div className="text-center py-12 text-muted-foreground">No transactions found.</div>
         )}
+        <PaginationControls currentPage={page} totalPages={totalPages} onPageChange={setPage} totalItems={filtered.length} pageSize={PAGE_SIZE} />
       </motion.div>
     </div>
   );

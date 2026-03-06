@@ -13,7 +13,7 @@ const AppLayout = () => {
     <div className="flex min-h-screen bg-background">
       <AppSidebar darkMode={darkMode} toggleDarkMode={() => setDarkMode(!darkMode)} />
       <main className="flex-1 overflow-auto">
-        <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
+        <div className="p-4 pt-16 lg:pt-6 lg:p-8 max-w-[1600px] mx-auto">
           <Outlet />
         </div>
       </main>
