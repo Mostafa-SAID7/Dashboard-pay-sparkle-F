@@ -38,7 +38,11 @@ const Payments = () => {
   const onSubmit = (data: PaymentForm) => {
     const newTx: Transaction = {
       id: `TXN${String(txns.length + 1).padStart(3, "0")}`,
-      ...data,
+      type: data.type,
+      sender: data.sender,
+      receiver: data.receiver,
+      amount: data.amount,
+      currency: data.currency,
       status: "pending",
       date: new Date().toISOString().split("T")[0],
       reference: `${data.type}-${Date.now()}`,
