@@ -60,7 +60,7 @@ function Index() {
   const deliveries = useMemo(() => buildDemoDeliveries(), []);
   const featured = deliveries.find((d) => d.status === "IN_TRANSIT") ?? deliveries[0];
   const activeZones = DEMO_ZONES.filter((z) => z.status === "ACTIVE");
-  const onlineCaptains = DEMO_CAPTAINS.filter((c) => c.status !== "OFFLINE").length;
+  const onlineCaptains = DEMO_CAPTAINS.filter((c) => c.availability !== "OFFLINE").length;
   const totalDeliveries = DEMO_MERCHANTS.reduce((sum, m) => sum + m.totalDeliveries, 0);
   const busiestDay = DEMO_DAILY_VOLUME.reduce((a, b) => (b.deliveries > a.deliveries ? b : a));
 
