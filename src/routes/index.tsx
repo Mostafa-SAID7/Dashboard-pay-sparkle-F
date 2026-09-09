@@ -60,7 +60,7 @@ function Index() {
   const deliveries = useMemo(() => buildDemoDeliveries(), []);
   const featured = deliveries.find((d) => d.status === "IN_TRANSIT") ?? deliveries[0];
   const activeZones = DEMO_ZONES.filter((z) => z.status === "ACTIVE");
-  const onlineCaptains = DEMO_CAPTAINS.filter((c) => c.status !== "OFFLINE").length;
+  const onlineCaptains = DEMO_CAPTAINS.filter((c) => c.availability !== "OFFLINE").length;
   const totalDeliveries = DEMO_MERCHANTS.reduce((sum, m) => sum + m.totalDeliveries, 0);
   const busiestDay = DEMO_DAILY_VOLUME.reduce((a, b) => (b.deliveries > a.deliveries ? b : a));
 
@@ -226,7 +226,7 @@ function Index() {
               <p className="mt-2 text-sm text-muted-foreground">{t("forCaptainsCopy")}</p>
               <ul className="mt-5 space-y-2 text-sm">
                 <Bullet>
-                  {t("todayEarnings")}: {money(DEMO_CAPTAINS[0]?.todayEarnings ?? 240)}
+                  {t("todayEarnings")}: {money(240)}
                 </Bullet>
                 <Bullet>
                   {t("availableRequests")} · {t("acceptanceRate")}
