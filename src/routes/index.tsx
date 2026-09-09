@@ -32,6 +32,11 @@ import {
 } from "@/data/demo";
 import { PROGRESS_STEPS } from "@/lib/delivery-status";
 import { useI18n } from "@/lib/i18n";
+import heroImg from "@/assets/hero-tuktuk.jpg";
+import merchantsImg from "@/assets/merchants.jpg";
+import captainsImg from "@/assets/captains.jpg";
+import trackingMapImg from "@/assets/tracking-map.jpg";
+import zoneCityImg from "@/assets/zone-city.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -98,6 +103,8 @@ function Index() {
       <main>
         {/* Hero */}
         <section className="mx-auto w-full max-w-6xl px-4 pb-14 pt-12 sm:px-6 sm:pt-16">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr]">
+          <div>
           <Badge variant="secondary" className="rounded-full">
             {t("demoBadge")}
           </Badge>
@@ -128,6 +135,23 @@ function Index() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+          </div>
+
+            <div className="relative overflow-hidden rounded-3xl border border-border/60 shadow-xl">
+              <img
+                src={heroImg}
+                alt="Tuk tuk delivery captain riding through an Egyptian delta town at sunset"
+                width={1600}
+                height={1008}
+                className="h-full w-full object-cover"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent" />
+              <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-border/50 bg-background/80 p-4 backdrop-blur">
+                <p className="text-sm font-semibold">{t("brand")}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{t("tagline")}</p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -165,6 +189,14 @@ function Index() {
                 </div>
 
                 <div className="rounded-2xl bg-muted/60 p-5">
+                  <img
+                    src={trackingMapImg}
+                    alt="Map showing the delivery route from pickup to drop-off"
+                    width={1200}
+                    height={1200}
+                    loading="lazy"
+                    className="mb-5 aspect-[4/3] w-full rounded-xl object-cover"
+                  />
                   <p className="text-sm font-semibold">{t("summary")}</p>
                   <dl className="mt-4 space-y-3 text-sm">
                     <Row label={t("packageType")} value={label(featured.packageType)} />
@@ -201,7 +233,15 @@ function Index() {
 
         {/* Merchants & captains */}
         <section className="mx-auto grid w-full max-w-6xl gap-4 px-4 pb-14 sm:px-6 lg:grid-cols-2">
-          <Card id="merchants" className="rounded-3xl">
+          <Card id="merchants" className="overflow-hidden rounded-3xl">
+            <img
+              src={merchantsImg}
+              alt="Shop owner handing a parcel to a delivery courier"
+              width={1200}
+              height={912}
+              loading="lazy"
+              className="h-48 w-full object-cover sm:h-56"
+            />
             <CardContent className="p-6 sm:p-8">
               <Store className="size-6 text-primary" />
               <h2 className="mt-4 text-xl font-semibold sm:text-2xl">{t("navMerchants")}</h2>
@@ -219,7 +259,15 @@ function Index() {
             </CardContent>
           </Card>
 
-          <Card id="captains" className="rounded-3xl">
+          <Card id="captains" className="overflow-hidden rounded-3xl">
+            <img
+              src={captainsImg}
+              alt="Tuk tuk captain checking new delivery requests on his phone"
+              width={1200}
+              height={912}
+              loading="lazy"
+              className="h-48 w-full object-cover sm:h-56"
+            />
             <CardContent className="p-6 sm:p-8">
               <Wallet className="size-6 text-primary" />
               <h2 className="mt-4 text-xl font-semibold sm:text-2xl">{t("navCaptains")}</h2>
@@ -248,7 +296,15 @@ function Index() {
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("zones")}</h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {DEMO_ZONES.map((zone) => (
-              <Card key={zone.id} className="rounded-2xl">
+              <Card key={zone.id} className="overflow-hidden rounded-2xl">
+                <img
+                  src={zoneCityImg}
+                  alt={`Aerial view of the ${zone.nameEn} service zone`}
+                  width={1200}
+                  height={800}
+                  loading="lazy"
+                  className="h-32 w-full object-cover"
+                />
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between gap-2">
                     <h3 className="font-semibold">{lang === "ar" ? zone.nameAr : zone.nameEn}</h3>
