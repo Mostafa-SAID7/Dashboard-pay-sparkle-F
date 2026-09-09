@@ -226,7 +226,7 @@ function Index() {
               <p className="mt-2 text-sm text-muted-foreground">{t("forCaptainsCopy")}</p>
               <ul className="mt-5 space-y-2 text-sm">
                 <Bullet>
-                  {t("todayEarnings")}: {money(DEMO_CAPTAINS[0]?.todayEarnings ?? 240)}
+                  {t("todayEarnings")}: {money(240)}
                 </Bullet>
                 <Bullet>
                   {t("availableRequests")} · {t("acceptanceRate")}
