@@ -1,24 +1,88 @@
-# Creative Vision Studio
+# PayFlow
 
-clone this repo https://github.com/aminone070/creative-vision-studio
+> Modern payments dashboard built for speed, clarity, and beautiful UX.
 
-This project was built with [Lovable](https://lovable.dev).
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/Node-22-green.svg)](package.json)
+[![React](https://img.shields.io/badge/React-19-blue.svg)](package.json)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](package.json)
+[![Vite](https://img.shields.io/badge/Vite-8-purple.svg)](package.json)
 
-## Build with Lovable
+## ✨ Features
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/60a830f0-36bc-4341-9ac4-02fd2902868e).
+- **Real-time Dashboard** — Live transaction metrics and analytics at a glance
+- **Payment Management** — Create, track, and manage payments seamlessly
+- **User Authentication** — Secure login and session management
+- **Responsive Design** — Works flawlessly on mobile, tablet, and desktop
+- **Modern UI** — Built with shadcn/ui and Tailwind CSS for polish and speed
+- **Type-Safe** — Full TypeScript coverage for reliability
+- **Optimized** — Vite + React 19 for lightning-fast performance
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## 🚀 Tech Stack
 
-## Development
+| Layer | Tech |
+|-------|------|
+| **Frontend** | React 19, TypeScript 5.8 |
+| **Build** | Vite 8 |
+| **Styling** | Tailwind CSS, shadcn/ui |
+| **Runtime** | Node 22 |
+| **Testing** | Vitest |
+| **Linting** | ESLint |
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## 🏃 Quick Start
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+### Prerequisites
+- Node.js 22 or later ([install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+- npm or Bun
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Mostafa-SAID7/Dashboard-pay-sparkle-F.git
+cd Dashboard-pay-sparkle-F
+
+# Install dependencies
+npm ci
+
+# Start development server
 npm run dev
 ```
+
+The app will be available at `http://localhost:5173`
+
+## 📚 Documentation
+
+For detailed guides, see the [docs/](docs/) folder:
+
+- **[Architecture](docs/architecture.md)** — System design, routing, components
+- **[Development](docs/development.md)** — Setup, scripts, coding conventions
+- **[Deployment](docs/deployment.md)** — Vercel deployment & production notes
+- **[Contributing](docs/contributing.md)** — How to contribute to PayFlow
+
+## 🌐 Live Demo
+
+📱 **Live App:** [pay-sparkle.vercel.app](https://pay-sparkle.vercel.app)
+
+## 🛠️ Available Scripts
+
+```bash
+npm run dev       # Start dev server (Vite)
+npm run build     # Build for production
+npm run preview   # Preview production build
+npm run lint      # Run ESLint
+npm run test      # Run tests with Vitest
+npm run test:ui   # Run tests with UI
+```
+
+## 📝 License
+
+MIT © 2024 PayFlow. See [LICENSE](LICENSE) for details.
+
+## 🤝 Contributing
+
+We welcome contributions! Please read [CONTRIBUTING.md](docs/contributing.md) for our guidelines.
+
+---
+
+**Built with ❤️ | [Report Issues](https://github.com/Mostafa-SAID7/Dashboard-pay-sparkle-F/issues) | [Discussions](https://github.com/Mostafa-SAID7/Dashboard-pay-sparkle-F/discussions)**
