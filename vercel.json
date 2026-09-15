@@ -2,16 +2,12 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm ci",
-  "framework": "other",
-  "outputDirectory": ".output/public",
+  "framework": "vite",
+  "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/assets/:path*",
-      "destination": "/assets/:path*"
-    },
-    {
-      "source": "/:path*",
-      "destination": "/api"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
