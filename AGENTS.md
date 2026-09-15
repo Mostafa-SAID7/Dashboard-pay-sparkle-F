@@ -18,88 +18,115 @@ You are an AI coding agent working on **PayFlow**, a modern payments dashboard.
 1. Keep the repository **clean, modern, and free of duplicate Markdown content**.
 2. Place every base Markdown file in the **correct location from root**.
 3. Maintain a useful `docs/` folder and a complete `.github/` folder with working workflows.
-4. Prefer clarity and focus over long duplicated explanations.
+4. Support **automatic releases**, proper **versioning**, and **Git tags**.
+5. Prefer clarity and focus over long duplicated explanations.
 
 ---
 
-## Required Repository Layout (Markdown & GitHub)
+## Required Repository Layout
 
-### Root (only these primary MD files)
+### Root (only these primary MD / config files)
 
 | File | Purpose |
 |------|---------|
-| `README.md` | High-level overview, features, quick start, tech stack, live link. Keep it stylish and focused. **No deep architecture or long tutorials.** |
+| `README.md` | High-level overview, features, tech stack, quick start, live link. Stylish and focused. **No deep architecture.** |
 | `AGENTS.md` | This file — instructions for AI agents only. |
-| `CONTRIBUTING.md` | Short contribution rules (or link to docs). Prefer the detailed version inside `docs/`. |
-
-Do **not** put long guides in the root. Move detailed content into `docs/`.
+| `CHANGELOG.md` | Keep a Changelog style. Update on every release. |
+| `package.json` | Must always contain a valid `"version": "x.y.z"` field. |
 
 ### `docs/` folder (detailed, non-overlapping)
 
 | File | Purpose |
 |------|---------|
 | `docs/README.md` | Index of all documentation |
-| `docs/architecture.md` | App structure, routing, data flow, key components |
-| `docs/development.md` | Local setup, scripts, coding conventions, testing |
-| `docs/deployment.md` | Vercel / production notes |
-| `docs/contributing.md` | Full contribution guide, PR process, code style |
+| `docs/architecture.md` | App structure, routing, data flow |
+| `docs/development.md` | Local setup, scripts, conventions |
+| `docs/deployment.md` | Vercel / production |
+| `docs/releases.md` | Versioning, tags, how releases work |
+| `docs/contributing.md` | Contribution guide |
 
-**Rule:** Content in `docs/` must **not** duplicate the focused points already in root `README.md`. README = summary + entry point. Docs = depth.
+**Rule:** No content duplication between root README and docs.
 
-### `.github/` folder (must exist and work)
+### `.github/` folder (must be complete and working)
 
 ```
 .github/
 ├── workflows/
-│   └── ci.yml              # Lint + build (must pass on every PR)
+│   ├── ci.yml                 # Lint + Build on every PR / push to main
+│   └── release.yml            # Automatic GitHub Release on tags v*
 ├── PULL_REQUEST_TEMPLATE.md
 ├── ISSUE_TEMPLATE/
-│   ├── bug_report.md
-│   └── feature_request.md
-└── dependabot.yml          # Optional but recommended
+│   ├── bug_report.md (or .yml)
+│   └── feature_request.md (or .yml)
+└── dependabot.yml
 ```
 
-#### Workflow version requirements (critical)
+---
 
-- Use **Node.js 22** (or at least ≥ 20) — matches modern React 19 + Vite 8 + TypeScript 5.8.
-- Prefer `actions/setup-node@v4` with `cache: 'npm'`.
-- Install with `npm ci` (or `bun install` if the workflow also supports Bun).
-- Always run:
-  - `npm run lint`
-  - `npm run build`
-- Keep the workflow simple and reliable. Do not add flaky steps.
-- Pin action versions to major tags (`@v4`) so CI stays stable.
+## Workflows — Version & Tag Requirements (critical)
 
-Example CI matrix is already provided in `.github/workflows/ci.yml`. Keep it working.
+### CI (`.github/workflows/ci.yml`)
+- Trigger: `push` + `pull_request` to `main`
+- Node.js **22**
+- `actions/checkout@v4` + `actions/setup-node@v4` (cache: npm)
+- `npm ci` → `npm run lint` → `npm run build`
+- Upload `dist/` as artifact (`actions/upload-artifact@v4`)
+- Keep it green and simple
+
+### Release (`.github/workflows/release.yml`)
+- Trigger:
+  - Push of tags matching `v*` (e.g. `v1.0.1`)
+  - OR `workflow_dispatch` with a version input
+- Must:
+  - Use Node 22
+  - Run lint + build
+  - Create a **GitHub Release** with the tag
+  - Attach build artifacts
+  - Generate release notes
+- Permissions: `contents: write`
+- Never force-push or delete existing tags
+
+### Versioning rules the agent must follow
+
+1. Always keep `package.json` → `"version"` in sync with the latest tag.
+2. When preparing a release:
+   - Bump version in `package.json`
+   - Update `CHANGELOG.md` (move Unreleased → new section)
+   - Commit with message `chore(release): vX.Y.Z`
+   - Create annotated tag `vX.Y.Z` and push it
+3. Prefer Semantic Versioning (MAJOR.MINOR.PATCH).
+4. Document any release process changes in `docs/releases.md`.
 
 ---
 
 ## Writing Rules for All Markdown
 
-- **No duplication** across README ↔ docs ↔ AGENTS.
-- Use clear headings, short paragraphs, tables, and code blocks.
-- Keep language modern and professional.
-- Prefer links between files instead of copying the same text.
-- Update `docs/README.md` whenever you add a new doc file.
+- Clear, modern, professional language
+- Short paragraphs, tables, code blocks
+- Prefer links instead of copy-paste
+- Zero duplication
+- Update `docs/README.md` when adding new docs
 
 ---
 
-## When You Change Code
+## When You Change Code or Docs
 
-- Respect existing component structure (`src/components/pay`, `src/components/ui`, pages, etc.).
-- Do not introduce duplicate components (e.g. avoid copying the same StatCard into multiple places).
-- After structural or doc changes, ensure CI still passes.
-- Never force-push or rewrite history on the connected branch.
+- Respect existing component structure
+- Do not introduce duplicate components or Markdown files
+- After structural / workflow changes, ensure CI still passes
+- Never force-push or rewrite published history (Lovable sync)
 
 ---
 
-## Quick Checklist Before Finishing a Task
+## Final Checklist Before Finishing Any Task
 
-- [ ] Root has a focused, stylish `README.md`
-- [ ] `AGENTS.md` stays accurate and actionable
-- [ ] `docs/` contains only non-overlapping detailed guides
-- [ ] `.github/workflows/ci.yml` uses Node ≥ 20 (preferably 22) and runs lint + build successfully
-- [ ] No duplicate Markdown content between files
-- [ ] Project remains in a working state for Lovable sync
+- [ ] Root has stylish focused `README.md`
+- [ ] `AGENTS.md` is accurate
+- [ ] `CHANGELOG.md` and `package.json` version are consistent
+- [ ] `docs/` contains only non-overlapping detailed guides (including `releases.md`)
+- [ ] `.github/workflows/ci.yml` uses Node 22 and runs lint + build successfully
+- [ ] `.github/workflows/release.yml` creates real GitHub Releases on `v*` tags
+- [ ] No duplicate Markdown content
+- [ ] Project remains in a working state for Lovable
 
-Follow these rules strictly so the repository stays professional, maintainable, and agent-friendly.
+Follow these rules strictly so the repository stays professional, versioned, and fully automated.

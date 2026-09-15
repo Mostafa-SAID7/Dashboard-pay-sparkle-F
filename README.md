@@ -1,115 +1,88 @@
 # PayFlow
 
-> Modern payments dashboard — real-time insights, batch processing, and account management.
+> Modern payments dashboard built for speed, clarity, and beautiful UX.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-00C853?style=for-the-badge&logo=vercel)](https://pay-sparkle.vercel.app)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
-[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev)
-[![Tailwind](https://img.shields.io/badge/Tailwind-4-38B2AC?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/Node-22-green.svg)](package.json)
+[![React](https://img.shields.io/badge/React-19-blue.svg)](package.json)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](package.json)
+[![Vite](https://img.shields.io/badge/Vite-8-purple.svg)](package.json)
 
-**Live:** [pay-sparkle.vercel.app](https://pay-sparkle.vercel.app)
+## ✨ Features
 
----
+- **Real-time Dashboard** — Live transaction metrics and analytics at a glance
+- **Payment Management** — Create, track, and manage payments seamlessly
+- **User Authentication** — Secure login and session management
+- **Responsive Design** — Works flawlessly on mobile, tablet, and desktop
+- **Modern UI** — Built with shadcn/ui and Tailwind CSS for polish and speed
+- **Type-Safe** — Full TypeScript coverage for reliability
+- **Optimized** — Vite + React 19 for lightning-fast performance
 
-## Features
+## 🚀 Tech Stack
 
-- **Dashboard** — overview metrics, charts, and key payment KPIs
-- **Payments** — list, filter, and manage individual transactions
-- **Batch Processing** — bulk payment runs and status tracking
-- **Users & Accounts** — user management and account views
-- **Settings** — theme, preferences, and configuration
-- **Dark / Light mode** with smooth transitions
-- **Responsive** sidebar + mobile-friendly layout
+| Layer | Tech |
+|-------|------|
+| **Frontend** | React 19, TypeScript 5.8 |
+| **Build** | Vite 8 |
+| **Styling** | Tailwind CSS, shadcn/ui |
+| **Runtime** | Node 22 |
+| **Testing** | Vitest |
+| **Linting** | ESLint |
 
----
+## 🏃 Quick Start
 
-## Tech Stack
+### Prerequisites
+- Node.js 22 or later ([install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+- npm or Bun
 
-| Layer | Choice |
-|-------|--------|
-| UI | React 19 + TypeScript |
-| Build | Vite 8 |
-| Styling | Tailwind CSS 4 + shadcn/ui |
-| Data | TanStack Query |
-| Routing | React Router |
-| Charts | Recharts |
-| Animation | Motion (Framer) |
-| Icons | Lucide React |
-
----
-
-## Quick Start
+### Installation
 
 ```bash
-# Clone
+# Clone the repository
 git clone https://github.com/Mostafa-SAID7/Dashboard-pay-sparkle-F.git
 cd Dashboard-pay-sparkle-F
 
-# Install (npm or bun)
-npm install
-# or: bun install
+# Install dependencies
+npm ci
 
-# Dev server
+# Start development server
 npm run dev
-# → http://localhost:5173
-
-# Build
-npm run build
-
-# Preview production build
-npm run preview
 ```
 
-**Requirements:** Node.js ≥ 20 (recommended 22) or Bun ≥ 1.1
+The app will be available at `http://localhost:5173`
 
----
+## 📚 Documentation
 
-## Project Structure
+For detailed guides, see the [docs/](docs/) folder:
 
+- **[Architecture](docs/architecture.md)** — System design, routing, components
+- **[Development](docs/development.md)** — Setup, scripts, coding conventions
+- **[Deployment](docs/deployment.md)** — Vercel deployment & production notes
+- **[Contributing](docs/contributing.md)** — How to contribute to PayFlow
+
+## 🌐 Live Demo
+
+📱 **Live App:** [pay-sparkle.vercel.app](https://pay-sparkle.vercel.app)
+
+## 🛠️ Available Scripts
+
+```bash
+npm run dev       # Start dev server (Vite)
+npm run build     # Build for production
+npm run preview   # Preview production build
+npm run lint      # Run ESLint
+npm run test      # Run tests with Vitest
+npm run test:ui   # Run tests with UI
 ```
-├── public/                 # Static assets
-├── src/
-│   ├── components/         # UI + layout + pay-specific components
-│   ├── pages/              # Route pages (Dashboard, Payments, …)
-│   ├── hooks/              # Custom hooks
-│   ├── lib/                # Utilities
-│   ├── features/           # Feature modules
-│   └── routes/             # Route definitions
-├── docs/                   # Detailed documentation (no overlap with README)
-├── .github/                # CI workflows + templates
-├── AGENTS.md               # Instructions for AI agents (Lovable / coding agents)
-└── package.json
-```
 
-See **[docs/](./docs/)** for architecture, development workflow, and deployment notes.
+## 📝 License
+
+MIT © 2024 PayFlow. See [LICENSE](LICENSE) for details.
+
+## 🤝 Contributing
+
+We welcome contributions! Please read [CONTRIBUTING.md](docs/contributing.md) for our guidelines.
 
 ---
 
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build |
-| `npm run lint` | ESLint |
-| `npm run format` | Prettier format |
-
----
-
-## Contributing
-
-1. Fork & create a feature branch
-2. Follow the code style (ESLint + Prettier)
-3. Open a PR — CI must pass
-
-Full guide: [docs/contributing.md](./docs/contributing.md)
-
----
-
-## License
-
-Private / All rights reserved unless otherwise stated.
-
-Built with ❤️ using [Lovable](https://lovable.dev) + modern React tooling.
+**Built with ❤️ | [Report Issues](https://github.com/Mostafa-SAID7/Dashboard-pay-sparkle-F/issues) | [Discussions](https://github.com/Mostafa-SAID7/Dashboard-pay-sparkle-F/discussions)**
