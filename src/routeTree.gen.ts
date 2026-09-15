@@ -10,33 +10,94 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShellRouteImport } from './routes/_shell'
+import { Route as ShellBatchRouteImport } from './routes/_shell.batch'
+import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellPaymentsRouteImport } from './routes/_shell.payments'
+import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
+import { Route as ShellUsersRouteImport } from './routes/_shell.users'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellRoute = ShellRouteImport.update({
+  id: '/_shell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShellBatchRoute = ShellBatchRouteImport.update({
+  id: '/batch',
+  path: '/batch',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellDashboardRoute = ShellDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellPaymentsRoute = ShellPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellSettingsRoute = ShellSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellUsersRoute = ShellUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/batch': typeof ShellBatchRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/payments': typeof ShellPaymentsRoute
+  '/settings': typeof ShellSettingsRoute
+  '/users': typeof ShellUsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/batch': typeof ShellBatchRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/payments': typeof ShellPaymentsRoute
+  '/settings': typeof ShellSettingsRoute
+  '/users': typeof ShellUsersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_shell': typeof ShellRouteWithChildren
+  '/_shell/batch': typeof ShellBatchRoute
+  '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/payments': typeof ShellPaymentsRoute
+  '/_shell/settings': typeof ShellSettingsRoute
+  '/_shell/users': typeof ShellUsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/batch' | '/dashboard' | '/payments' | '/settings' | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/batch' | '/dashboard' | '/payments' | '/settings' | '/users'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/_shell/batch'
+    | '/_shell/dashboard'
+    | '/_shell/payments'
+    | '/_shell/settings'
+    | '/_shell/users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ShellRoute: typeof ShellRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +109,72 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell': {
+      id: '/_shell'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ShellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_shell/batch': {
+      id: '/_shell/batch'
+      path: '/batch'
+      fullPath: '/batch'
+      preLoaderRoute: typeof ShellBatchRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/dashboard': {
+      id: '/_shell/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ShellDashboardRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/payments': {
+      id: '/_shell/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof ShellPaymentsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/settings': {
+      id: '/_shell/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ShellSettingsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/users': {
+      id: '/_shell/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof ShellUsersRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
+interface ShellRouteChildren {
+  ShellBatchRoute: typeof ShellBatchRoute
+  ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellPaymentsRoute: typeof ShellPaymentsRoute
+  ShellSettingsRoute: typeof ShellSettingsRoute
+  ShellUsersRoute: typeof ShellUsersRoute
+}
+
+const ShellRouteChildren: ShellRouteChildren = {
+  ShellBatchRoute: ShellBatchRoute,
+  ShellDashboardRoute: ShellDashboardRoute,
+  ShellPaymentsRoute: ShellPaymentsRoute,
+  ShellSettingsRoute: ShellSettingsRoute,
+  ShellUsersRoute: ShellUsersRoute,
+}
+
+const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ShellRoute: ShellRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

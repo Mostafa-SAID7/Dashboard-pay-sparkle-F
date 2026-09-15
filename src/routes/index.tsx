@@ -1,374 +1,245 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
-  Bike,
-  CheckCircle2,
-  Clock,
-  MapPin,
-  PackageCheck,
+  BarChart3,
+  Globe2,
+  Layers,
   ShieldCheck,
-  Store,
-  Wallet,
+  Users,
+  Zap,
 } from "lucide-react";
 
-import { Nav } from "@/components/site/Nav";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Progress } from "@/components/ui/progress";
-import {
-  DEMO_CAPTAINS,
-  DEMO_DAILY_VOLUME,
-  DEMO_MERCHANTS,
-  DEMO_ZONES,
-  buildDemoDeliveries,
-} from "@/data/demo";
-import { PROGRESS_STEPS } from "@/lib/delivery-status";
-import { useI18n } from "@/lib/i18n";
-import heroImg from "@/assets/hero-tuktuk.jpg";
-import merchantsImg from "@/assets/merchants.jpg";
-import captainsImg from "@/assets/captains.jpg";
-import trackingMapImg from "@/assets/tracking-map.jpg";
-import zoneCityImg from "@/assets/zone-city.jpg";
+import heroPayments from "@/assets/hero-payments.jpg";
+import featureBatch from "@/assets/feature-batch.jpg";
+import featureNetwork from "@/assets/feature-network.jpg";
+import featureTeam from "@/assets/feature-team.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "TUKLY — Local TukTok delivery for Egyptian merchants" },
+      { title: "PayFlow — Payment Operations Platform" },
       {
         name: "description",
         content:
-          "TUKLY connects Egyptian shops with TukTok captains for fast local delivery, live order tracking and transparent per-zone pricing.",
+          "PayFlow gives finance teams a live command center for ACH, RTGS and WPS payments: batches, users, and real-time volumes.",
       },
-      { property: "og:title", content: "TUKLY — Local TukTok delivery" },
+      { property: "og:title", content: "PayFlow — Payment Operations Platform" },
       {
         property: "og:description",
         content:
-          "Fast last-mile delivery in Tanta, Mahalla and Mansoura with live tracking and clear pricing.",
+          "Run ACH, RTGS and WPS payment operations from one real-time dashboard.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Index,
+  component: Landing,
 });
 
-function Index() {
-  const { t, label, money, lang } = useI18n();
-  const deliveries = useMemo(() => buildDemoDeliveries(), []);
-  const featured = deliveries.find((d) => d.status === "IN_TRANSIT") ?? deliveries[0];
-  const activeZones = DEMO_ZONES.filter((z) => z.status === "ACTIVE");
-  const onlineCaptains = DEMO_CAPTAINS.filter((c) => c.availability !== "OFFLINE").length;
-  const totalDeliveries = DEMO_MERCHANTS.reduce((sum, m) => sum + m.totalDeliveries, 0);
-  const busiestDay = DEMO_DAILY_VOLUME.reduce((a, b) => (b.deliveries > a.deliveries ? b : a));
+const FEATURES = [
+  {
+    icon: BarChart3,
+    title: "Live payment volumes",
+    body: "Track transaction counts, totals and success rates the moment they change — no end-of-day reports.",
+  },
+  {
+    icon: Layers,
+    title: "Batch processing",
+    body: "Upload, validate and release ACH, RTGS and WPS batches with a 94%+ success pipeline.",
+  },
+  {
+    icon: Users,
+    title: "Users & accounts",
+    body: "Role-based access for operators, approvers and auditors across every account.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Bank-grade controls",
+    body: "Dual approval, full audit trail and status badges on every single transaction.",
+  },
+];
 
-  const featuredStepIndex = featured
-    ? PROGRESS_STEPS.indexOf(featured.status)
-    : -1;
-  const featuredProgress =
-    featuredStepIndex >= 0
-      ? ((featuredStepIndex + 1) / PROGRESS_STEPS.length) * 100
-      : 20;
+const SHOWCASE = [
+  {
+    img: featureNetwork,
+    alt: "Global money movement network visualization",
+    title: "Global rails, one dashboard",
+    body: "ACH, RTGS and WPS corridors unified into a single operational view.",
+  },
+  {
+    img: featureBatch,
+    alt: "Batch processing pipeline visualization",
+    title: "Batches that run themselves",
+    body: "Validation, cut-off windows and retries handled automatically.",
+  },
+  {
+    img: featureTeam,
+    alt: "Payments operations team at work",
+    title: "Built for operations teams",
+    body: "Designed with treasurers and payment operators, not just engineers.",
+  },
+];
 
-  const stats = [
-    { value: totalDeliveries.toLocaleString(), key: "totalDeliveries" },
-    { value: String(onlineCaptains), key: "onlineCaptains" },
-    { value: String(DEMO_MERCHANTS.filter((m) => m.status === "APPROVED").length), key: "activeMerchants" },
-    { value: String(activeZones.length), key: "zones" },
-  ];
-
-  const steps = [
-    { icon: Store, title: t("stepPickup"), body: t("forMerchantsCopy") },
-    { icon: Bike, title: t("stepDestination"), body: t("forCaptainsCopy") },
-    { icon: PackageCheck, title: t("tracking"), body: t("forCustomersCopy") },
-  ];
-
-  const faqs = [
-    { q: t("zones"), a: activeZones.map((z) => (lang === "ar" ? z.nameAr : z.nameEn)).join(" · ") },
-    { q: t("pricing"), a: `${t("deliveryFee")}: ${money(DEMO_ZONES[0]?.baseFee ?? 25)} + ${money(DEMO_ZONES[0]?.perKmFee ?? 4)}/km` },
-    { q: t("codRequired"), a: t("forCustomersCopy") },
-  ];
-
+function Landing() {
   return (
-    <div id="top" className="min-h-screen bg-background text-foreground">
-      <Nav />
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Nav */}
+      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
+          <div className="flex items-center gap-2.5">
+            <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Zap className="size-4" />
+            </span>
+            <span className="text-[15px] font-semibold tracking-tight">
+              PayFlow
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <a
+              href="#features"
+              className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground sm:block"
+            >
+              Features
+            </a>
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.03]"
+            >
+              Open Dashboard
+              <ArrowRight className="size-4" />
+            </Link>
+          </div>
+        </div>
+      </header>
 
-      <main>
-        {/* Hero */}
-        <section className="mx-auto w-full max-w-6xl px-4 pb-14 pt-12 sm:px-6 sm:pt-16">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr]">
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-2 lg:py-28">
           <div>
-          <Badge variant="secondary" className="rounded-full">
-            {t("demoBadge")}
-          </Badge>
-          <h1 className="mt-5 max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl">
-            {t("heroTitle")}
-          </h1>
-          <p className="mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">
-            {t("heroSub")}
-          </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Button size="lg" className="rounded-full" asChild>
-              <a href="#merchants">
-                {t("ctaMerchant")}
+            <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
+              <Globe2 className="size-3.5 text-accent" />
+              ACH · RTGS · WPS
+            </p>
+            <h1 className="text-gradient mt-6 text-4xl font-bold text-balance sm:text-6xl">
+              Payment operations, in real time
+            </h1>
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
+              PayFlow is the command center for finance teams: live volumes,
+              automated batches, and every account under control — from a
+              single dashboard.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03]"
+              >
+                Launch Dashboard
                 <ArrowRight className="size-4" />
+              </Link>
+              <a
+                href="#features"
+                className="inline-flex items-center justify-center rounded-xl border border-border bg-card px-6 py-3.5 text-sm font-medium transition-colors hover:bg-muted"
+              >
+                Explore features
               </a>
-            </Button>
-            <Button size="lg" variant="outline" className="rounded-full" asChild>
-              <a href="#captains">{t("ctaCaptain")}</a>
-            </Button>
-          </div>
-
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-            {stats.map((s) => (
-              <Card key={s.key} className="rounded-2xl">
-                <CardContent className="p-4 sm:p-5">
-                  <p className="text-2xl font-bold sm:text-3xl">{s.value}</p>
-                  <p className="mt-1 text-xs text-muted-foreground sm:text-sm">{t(s.key)}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          </div>
-
-            <div className="relative overflow-hidden rounded-3xl border border-border/60 shadow-xl">
-              <img
-                src={heroImg}
-                alt="Tuk tuk delivery captain riding through an Egyptian delta town at sunset"
-                width={1600}
-                height={1008}
-                className="h-full w-full object-cover"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent" />
-              <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-border/50 bg-background/80 p-4 backdrop-blur">
-                <p className="text-sm font-semibold">{t("brand")}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{t("tagline")}</p>
-              </div>
             </div>
           </div>
-        </section>
-
-        {/* Live tracking preview */}
-        {featured ? (
-          <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6">
-            <Card className="overflow-hidden rounded-3xl">
-              <CardContent className="grid gap-6 p-5 sm:p-8 lg:grid-cols-[1.2fr_1fr]">
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge className="rounded-full">{label(featured.status)}</Badge>
-                    <span className="font-mono text-sm text-muted-foreground">{featured.id}</span>
-                  </div>
-                  <h2 className="mt-4 text-xl font-semibold sm:text-2xl">{t("liveMap")}</h2>
-                  <Progress value={featuredProgress} className="mt-4" />
-                  <div className="mt-5 space-y-3 text-sm">
-                    <p className="flex items-start gap-2">
-                      <MapPin className="mt-0.5 size-4 text-primary" />
-                      <span>
-                        {t("stepPickup")}: {featured.pickup.area} — {featured.pickup.street}
-                      </span>
-                    </p>
-                    <p className="flex items-start gap-2">
-                      <MapPin className="mt-0.5 size-4 text-primary" />
-                      <span>
-                        {t("stepDestination")}: {featured.destination.area} — {featured.destination.street}
-                      </span>
-                    </p>
-                    <p className="flex items-center gap-2 text-muted-foreground">
-                      <Clock className="size-4" />
-                      {t("eta")}: {featured.etaMinutes} {lang === "ar" ? "دقيقة" : "min"} ·{" "}
-                      {t("distance")}: {featured.distanceKm} km
-                    </p>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl bg-muted/60 p-5">
-                  <img
-                    src={trackingMapImg}
-                    alt="Map showing the delivery route from pickup to drop-off"
-                    width={1200}
-                    height={1200}
-                    loading="lazy"
-                    className="mb-5 aspect-[4/3] w-full rounded-xl object-cover"
-                  />
-                  <p className="text-sm font-semibold">{t("summary")}</p>
-                  <dl className="mt-4 space-y-3 text-sm">
-                    <Row label={t("packageType")} value={label(featured.packageType)} />
-                    <Row label={t("packageSize")} value={label(featured.packageSize)} />
-                    <Row label={t("deliveryFee")} value={money(featured.price.total)} />
-                    <Row label={t("captainEarning")} value={money(featured.price.captainEarning)} />
-                    <Row label={t("codAmount")} value={money(featured.codAmount)} />
-                  </dl>
-                  <p className="mt-5 text-xs text-muted-foreground">{t("demoNote")}</p>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-        ) : null}
-
-        {/* How it works */}
-        <section id="how" className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("howItWorks")}</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {steps.map((step, i) => (
-              <Card key={step.title} className="rounded-2xl">
-                <CardContent className="p-6">
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <step.icon className="size-5" />
-                  </span>
-                  <p className="mt-4 text-sm font-medium text-muted-foreground">0{i + 1}</p>
-                  <h3 className="mt-1 text-lg font-semibold">{step.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Merchants & captains */}
-        <section className="mx-auto grid w-full max-w-6xl gap-4 px-4 pb-14 sm:px-6 lg:grid-cols-2">
-          <Card id="merchants" className="overflow-hidden rounded-3xl">
+          <div className="glass-card overflow-hidden rounded-2xl">
             <img
-              src={merchantsImg}
-              alt="Shop owner handing a parcel to a delivery courier"
-              width={1200}
-              height={912}
-              loading="lazy"
-              className="h-48 w-full object-cover sm:h-56"
+              src={heroPayments}
+              alt="PayFlow payments control room"
+              className="h-full w-full object-cover"
+              loading="eager"
             />
-            <CardContent className="p-6 sm:p-8">
-              <Store className="size-6 text-primary" />
-              <h2 className="mt-4 text-xl font-semibold sm:text-2xl">{t("navMerchants")}</h2>
-              <p className="mt-2 text-sm text-muted-foreground">{t("forMerchantsCopy")}</p>
-              <ul className="mt-5 space-y-2 text-sm">
-                <Bullet>{t("newDelivery")}</Bullet>
-                <Bullet>{t("tracking")}</Bullet>
-                <Bullet>
-                  {t("commission")}: 18% · {t("avgDeliveryTime")}: 32 {lang === "ar" ? "دقيقة" : "min"}
-                </Bullet>
-              </ul>
-              <Button className="mt-6 rounded-full" asChild>
-                <a href="#zones">{t("ctaMerchant")}</a>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card id="captains" className="overflow-hidden rounded-3xl">
-            <img
-              src={captainsImg}
-              alt="Tuk tuk captain checking new delivery requests on his phone"
-              width={1200}
-              height={912}
-              loading="lazy"
-              className="h-48 w-full object-cover sm:h-56"
-            />
-            <CardContent className="p-6 sm:p-8">
-              <Wallet className="size-6 text-primary" />
-              <h2 className="mt-4 text-xl font-semibold sm:text-2xl">{t("navCaptains")}</h2>
-              <p className="mt-2 text-sm text-muted-foreground">{t("forCaptainsCopy")}</p>
-              <ul className="mt-5 space-y-2 text-sm">
-                <Bullet>
-                  {t("todayEarnings")}: {money(240)}
-                </Bullet>
-                <Bullet>
-                  {t("availableRequests")} · {t("acceptanceRate")}
-                </Bullet>
-                <Bullet>
-                  {busiestDay.deliveries} {t("deliveries")} —{" "}
-                  {lang === "ar" ? busiestDay.day : busiestDay.dayEn}
-                </Bullet>
-              </ul>
-              <Button variant="outline" className="mt-6 rounded-full" asChild>
-                <a href="#zones">{t("ctaCaptain")}</a>
-              </Button>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Zones */}
-        <section id="zones" className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("zones")}</h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {DEMO_ZONES.map((zone) => (
-              <Card key={zone.id} className="overflow-hidden rounded-2xl">
-                <img
-                  src={zoneCityImg}
-                  alt={`Aerial view of the ${zone.nameEn} service zone`}
-                  width={1200}
-                  height={800}
-                  loading="lazy"
-                  className="h-32 w-full object-cover"
-                />
-                <CardContent className="p-5">
-                  <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-semibold">{lang === "ar" ? zone.nameAr : zone.nameEn}</h3>
-                    <Badge
-                      variant={zone.status === "ACTIVE" ? "default" : "secondary"}
-                      className="rounded-full"
-                    >
-                      {label(zone.status)}
-                    </Badge>
-                  </div>
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    {t("deliveryFee")}: {money(zone.baseFee)} + {money(zone.perKmFee)}/km
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {zone.hours.from} – {zone.hours.to} · {zone.radiusKm} km
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* FAQ */}
-        <section id="faq" className="mx-auto w-full max-w-3xl px-4 py-14 sm:px-6">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("faq")}</h2>
-          <Accordion type="single" collapsible className="mt-6">
-            {faqs.map((item, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="text-start">{item.q}</AccordionTrigger>
-                <AccordionContent>{item.a}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </section>
-      </main>
+      {/* Features */}
+      <section id="features" className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <h2 className="text-2xl font-semibold sm:text-3xl">
+          Everything a payments team needs
+        </h2>
+        <p className="mt-3 max-w-xl text-muted-foreground">
+          From a single payment to a thousand-line batch, PayFlow keeps every
+          rail visible and every operator accountable.
+        </p>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {FEATURES.map((f) => (
+            <div key={f.title} className="glass-card rounded-xl p-6">
+              <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <f.icon className="size-5" />
+              </span>
+              <h3 className="mt-4 font-medium">{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {f.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      <footer className="border-t border-border/60">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-8 sm:px-6">
-          <div className="flex items-center gap-2 font-semibold">
-            <ShieldCheck className="size-4 text-primary" />
-            {t("brand")}
+      {/* Showcase */}
+      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
+        <div className="grid gap-4 lg:grid-cols-3">
+          {SHOWCASE.map((s) => (
+            <figure
+              key={s.title}
+              className="glass-card overflow-hidden rounded-xl"
+            >
+              <img
+                src={s.img}
+                alt={s.alt}
+                className="aspect-[4/3] w-full object-cover"
+                loading="lazy"
+              />
+              <figcaption className="p-6">
+                <h3 className="font-medium">{s.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{s.body}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="mx-auto max-w-7xl px-5 pb-24 sm:px-8">
+        <div className="glass-card relative overflow-hidden rounded-2xl px-6 py-16 text-center sm:px-16">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/15 via-transparent to-accent/15" />
+          <div className="relative">
+            <h2 className="text-gradient mx-auto max-w-2xl text-3xl font-semibold text-balance sm:text-4xl">
+              See your payments move, as they move
+            </h2>
+            <p className="mx-auto mt-4 max-w-md text-muted-foreground">
+              Open the live dashboard and explore volumes, batches and accounts
+              with real data.
+            </p>
+            <Link
+              to="/dashboard"
+              className="mt-8 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03]"
+            >
+              Open PayFlow
+              <ArrowRight className="size-4" />
+            </Link>
           </div>
-          <p className="text-sm text-muted-foreground">{t("tagline")}</p>
-          <p className="text-xs text-muted-foreground">{t("demoNote")}</p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border px-5 py-10 sm:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <div className="flex items-center gap-2.5">
+            <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <Zap className="size-3.5" />
+            </span>
+            <span className="text-sm font-semibold">PayFlow</span>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} PayFlow. Payment operations platform.
+          </p>
         </div>
       </footer>
     </div>
-  );
-}
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between gap-3">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd className="font-medium">{value}</dd>
-    </div>
-  );
-}
-
-function Bullet({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex items-start gap-2">
-      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" />
-      <span>{children}</span>
-    </li>
   );
 }
