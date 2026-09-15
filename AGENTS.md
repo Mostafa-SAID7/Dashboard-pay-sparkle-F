@@ -1,5 +1,3 @@
-# Agent Prompt — Keep PayFlow Repository Clean & Professional
-
 <!-- LOVABLE:BEGIN -->
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
@@ -11,158 +9,124 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-## Your Mission
+# Agent Instructions — PayFlow (Dashboard-pay-sparkle-F)
 
-You are maintaining the repository: **https://github.com/Mostafa-SAID7/Dashboard-pay-sparkle-F**
+You are an AI coding agent working on **PayFlow**, a modern payments dashboard.
 
-Project name: **PayFlow** – modern payments dashboard
+## Core Goals
 
-Maintain and improve the repository so it always has:
-
-1. Correct base Markdown files in the right locations from the root
-2. A clean `docs/` folder with no overlaps
-3. A complete `.github/` folder with all needed Markdown files and working workflows
-4. **No duplicate content** between any Markdown files
-5. A stylish, modern, focused root `README.md`
-6. Workflows that actually work with the correct versions
+1. Keep the repository **clean, modern, and free of duplicate Markdown content**.
+2. Place every base Markdown file in the **correct location from root**.
+3. Maintain a useful `docs/` folder and a complete `.github/` folder with working workflows.
+4. Support **automatic releases**, proper **versioning**, and **Git tags**.
+5. Prefer clarity and focus over long duplicated explanations.
 
 ---
 
-## Required Structure (must always exist)
+## Required Repository Layout
 
-### Root (only these primary files)
+### Root (only these primary MD / config files)
 
-- `README.md` → High-level, stylish, focused (features, tech stack, quick start, live demo). **No deep guides.**
-- `AGENTS.md` → Instructions for AI agents only (keep the Lovable history warning + these rules)
+| File | Purpose |
+|------|---------|
+| `README.md` | High-level overview, features, tech stack, quick start, live link. Stylish and focused. **No deep architecture.** |
+| `AGENTS.md` | This file — instructions for AI agents only. |
+| `CHANGELOG.md` | Keep a Changelog style. Update on every release. |
+| `package.json` | Must always contain a valid `"version": "x.y.z"` field. |
 
-### `docs/` folder (detailed, non-overlapping content)
+### `docs/` folder (detailed, non-overlapping)
 
-- `docs/README.md` → Index of all docs
-- `docs/architecture.md` → App structure, routing, components, data flow
-- `docs/development.md` → Local setup, scripts, conventions
-- `docs/deployment.md` → Vercel / production notes
-- `docs/contributing.md` → Full contribution guide
+| File | Purpose |
+|------|---------|
+| `docs/README.md` | Index of all documentation |
+| `docs/architecture.md` | App structure, routing, data flow |
+| `docs/development.md` | Local setup, scripts, conventions |
+| `docs/deployment.md` | Vercel / production |
+| `docs/releases.md` | Versioning, tags, how releases work |
+| `docs/contributing.md` | Contribution guide |
 
-**Strict rule:** Content in `docs/` must NOT repeat the focused points already written in the root `README.md`.
+**Rule:** No content duplication between root README and docs.
 
 ### `.github/` folder (must be complete and working)
 
-- `workflows/ci.yml` → CI pipeline (Node 22, npm ci → lint → build)
-- `pull_request_template.md` → PR format
-- `ISSUE_TEMPLATE/bug.yml` → Bug report template
-- `ISSUE_TEMPLATE/feature.yml` → Feature request template
-- `dependabot.yml` → Automated dependency updates
+```
+.github/
+├── workflows/
+│   ├── ci.yml                 # Lint + Build on every PR / push to main
+│   └── release.yml            # Automatic GitHub Release on tags v*
+├── PULL_REQUEST_TEMPLATE.md
+├── ISSUE_TEMPLATE/
+│   ├── bug_report.md (or .yml)
+│   └── feature_request.md (or .yml)
+└── dependabot.yml
+```
 
 ---
 
-## Workflow Rules
+## Workflows — Version & Tag Requirements (critical)
 
-### Version Requirements
+### CI (`.github/workflows/ci.yml`)
+- Trigger: `push` + `pull_request` to `main`
+- Node.js **22**
+- `actions/checkout@v4` + `actions/setup-node@v4` (cache: npm)
+- `npm ci` → `npm run lint` → `npm run build`
+- Upload `dist/` as artifact (`actions/upload-artifact@v4`)
+- Keep it green and simple
 
-- **Node.js:** 22 (matches React 19 + Vite 8 + TypeScript 5.8)
-- **Package Manager:** npm (use `npm ci` for reproducible installs)
+### Release (`.github/workflows/release.yml`)
+- Trigger:
+  - Push of tags matching `v*` (e.g. `v1.0.1`)
+  - OR `workflow_dispatch` with a version input
+- Must:
+  - Use Node 22
+  - Run lint + build
+  - Create a **GitHub Release** with the tag
+  - Attach build artifacts
+  - Generate release notes
+- Permissions: `contents: write`
+- Never force-push or delete existing tags
 
-### CI Pipeline
+### Versioning rules the agent must follow
 
-The `workflows/ci.yml` must:
-
-1. Use `actions/checkout@v4`
-2. Use `actions/setup-node@v4` with Node 22
-3. Enable npm caching for speed
-4. Run: `npm ci` → `npm run lint` → `npm run build`
-5. Fail if lint or build fails
-6. Never force-push results
-
-### Git Safety
-
-- **Never force-push** or rewrite history (Lovable sync safety)
-- **Make clean commits** with clear messages
-- **Always use `npm ci`** for reproducible installs in CI
-- **Keep main branch working** at all times
-
----
-
-## Documentation Guidelines
-
-### Root README.md (Stylish & Focused)
-
-Should include:
-- Badges (License, Node, React, TypeScript, Vite)
-- Feature list (short, impactful)
-- Tech stack table
-- Quick start (prerequisites, installation, running)
-- Link to live demo
-- Available scripts (dev, build, preview, lint, test)
-- License & contributing links
-- Documentation index pointing to `docs/`
-
-**Must NOT include:**
-- Detailed architecture (belongs in `docs/architecture.md`)
-- Full setup steps (brief summary only; details in `docs/development.md`)
-- Deployment guides (belongs in `docs/deployment.md`)
-- Contribution details (belongs in `docs/contributing.md`)
-
-### docs/README.md (Index)
-
-Quick reference to all documentation files. Links and one-liner descriptions.
-
-### docs/architecture.md (System Design)
-
-- App structure (folders, routing)
-- Component hierarchy
-- Data flow & state management
-- Key design decisions
-- API integrations (if any)
-
-### docs/development.md (Dev Workflow)
-
-- Detailed local setup
-- Available npm scripts with descriptions
-- Coding conventions (naming, file structure)
-- Testing approach
-- Common issues & solutions
-
-### docs/deployment.md (Production)
-
-- Vercel deployment process
-- Environment variables
-- Build optimization
-- Performance tips
-- Monitoring & debugging in production
-
-### docs/contributing.md (Contribution Guide)
-
-- How to fork, branch, develop
-- Commit message conventions
-- PR process & checklist
-- Code review expectations
-- Setup for contributors
+1. Always keep `package.json` → `"version"` in sync with the latest tag.
+2. When preparing a release:
+   - Bump version in `package.json`
+   - Update `CHANGELOG.md` (move Unreleased → new section)
+   - Commit with message `chore(release): vX.Y.Z`
+   - Create annotated tag `vX.Y.Z` and push it
+3. Prefer Semantic Versioning (MAJOR.MINOR.PATCH).
+4. Document any release process changes in `docs/releases.md`.
 
 ---
 
-## Checklist for Agents
+## Writing Rules for All Markdown
 
-When working on PayFlow, verify:
-
-- [ ] Root `README.md` is stylish, focused, and links to `docs/`
-- [ ] `AGENTS.md` contains these rules + Lovable warning (never removed)
-- [ ] All 5 `docs/` files exist and are non-overlapping
-- [ ] `.github/` has all workflows and templates
-- [ ] `workflows/ci.yml` uses Node 22 + npm ci
-- [ ] No content is duplicated across Markdown files
-- [ ] All commits have clear, descriptive messages
-- [ ] Main branch always has working code
-- [ ] No force-pushes or history rewrites
+- Clear, modern, professional language
+- Short paragraphs, tables, code blocks
+- Prefer links instead of copy-paste
+- Zero duplication
+- Update `docs/README.md` when adding new docs
 
 ---
 
-## Live Resources
+## When You Change Code or Docs
 
-- **Repository:** https://github.com/Mostafa-SAID7/Dashboard-pay-sparkle-F
-- **Live App:** https://pay-sparkle.vercel.app
-- **CI Status:** Check GitHub Actions for workflow runs
+- Respect existing component structure
+- Do not introduce duplicate components or Markdown files
+- After structural / workflow changes, ensure CI still passes
+- Never force-push or rewrite published history (Lovable sync)
 
 ---
 
-**Last Updated:** September 2024  
-**Maintained for:** PayFlow Development Team & AI Agents
+## Final Checklist Before Finishing Any Task
+
+- [ ] Root has stylish focused `README.md`
+- [ ] `AGENTS.md` is accurate
+- [ ] `CHANGELOG.md` and `package.json` version are consistent
+- [ ] `docs/` contains only non-overlapping detailed guides (including `releases.md`)
+- [ ] `.github/workflows/ci.yml` uses Node 22 and runs lint + build successfully
+- [ ] `.github/workflows/release.yml` creates real GitHub Releases on `v*` tags
+- [ ] No duplicate Markdown content
+- [ ] Project remains in a working state for Lovable
+
+Follow these rules strictly so the repository stays professional, versioned, and fully automated.
