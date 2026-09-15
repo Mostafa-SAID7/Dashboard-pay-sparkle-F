@@ -9,7 +9,13 @@ interface PaginationControlsProps {
   pageSize: number;
 }
 
-const PaginationControls = ({ currentPage, totalPages, onPageChange, totalItems, pageSize }: PaginationControlsProps) => {
+const PaginationControls = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  totalItems,
+  pageSize,
+}: PaginationControlsProps) => {
   const start = (currentPage - 1) * pageSize + 1;
   const end = Math.min(currentPage * pageSize, totalItems);
 

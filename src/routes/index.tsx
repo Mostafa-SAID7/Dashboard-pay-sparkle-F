@@ -1,13 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  BarChart3,
-  Globe2,
-  Layers,
-  ShieldCheck,
-  Users,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, BarChart3, Globe2, Layers, ShieldCheck, Users, Zap } from "lucide-react";
 
 import heroPayments from "@/assets/hero-payments.jpg";
 import featureBatch from "@/assets/feature-batch.jpg";
@@ -26,8 +18,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "PayFlow — Payment Operations Platform" },
       {
         property: "og:description",
-        content:
-          "Run ACH, RTGS and WPS payment operations from one real-time dashboard.",
+        content: "Run ACH, RTGS and WPS payment operations from one real-time dashboard.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -90,9 +81,7 @@ function Landing() {
             <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Zap className="size-4" />
             </span>
-            <span className="text-[15px] font-semibold tracking-tight">
-              PayFlow
-            </span>
+            <span className="text-[15px] font-semibold tracking-tight">PayFlow</span>
           </div>
           <div className="flex items-center gap-3">
             <a
@@ -125,9 +114,8 @@ function Landing() {
               Payment operations, in real time
             </h1>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
-              PayFlow is the command center for finance teams: live volumes,
-              automated batches, and every account under control — from a
-              single dashboard.
+              PayFlow is the command center for finance teams: live volumes, automated batches, and
+              every account under control — from a single dashboard.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -158,12 +146,10 @@ function Landing() {
 
       {/* Features */}
       <section id="features" className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
-        <h2 className="text-2xl font-semibold sm:text-3xl">
-          Everything a payments team needs
-        </h2>
+        <h2 className="text-2xl font-semibold sm:text-3xl">Everything a payments team needs</h2>
         <p className="mt-3 max-w-xl text-muted-foreground">
-          From a single payment to a thousand-line batch, PayFlow keeps every
-          rail visible and every operator accountable.
+          From a single payment to a thousand-line batch, PayFlow keeps every rail visible and every
+          operator accountable.
         </p>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((f) => (
@@ -172,9 +158,7 @@ function Landing() {
                 <f.icon className="size-5" />
               </span>
               <h3 className="mt-4 font-medium">{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {f.body}
-              </p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
             </div>
           ))}
         </div>
@@ -184,10 +168,7 @@ function Landing() {
       <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
         <div className="grid gap-4 lg:grid-cols-3">
           {SHOWCASE.map((s) => (
-            <figure
-              key={s.title}
-              className="glass-card overflow-hidden rounded-xl"
-            >
+            <figure key={s.title} className="glass-card overflow-hidden rounded-xl">
               <img
                 src={s.img}
                 alt={s.alt}
@@ -212,8 +193,7 @@ function Landing() {
               See your payments move, as they move
             </h2>
             <p className="mx-auto mt-4 max-w-md text-muted-foreground">
-              Open the live dashboard and explore volumes, batches and accounts
-              with real data.
+              Open the live dashboard and explore volumes, batches and accounts with real data.
             </p>
             <Link
               to="/dashboard"

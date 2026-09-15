@@ -56,10 +56,38 @@ const Dashboard = () => {
       </motion.header>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard title="Total Transactions" value="1,247" change="+12.5% from last month" changeType="positive" icon={CreditCard} delay={0} />
-        <StatCard title="Total Volume" value="$4.2M" change="+8.3% from last month" changeType="positive" icon={DollarSign} delay={0.1} />
-        <StatCard title="Batch Processed" value="847" change="94.1% success rate" changeType="positive" icon={Layers} delay={0.2} />
-        <StatCard title="Active Users" value="156" change="+3 new this week" changeType="neutral" icon={Users} delay={0.3} />
+        <StatCard
+          title="Total Transactions"
+          value="1,247"
+          change="+12.5% from last month"
+          changeType="positive"
+          icon={CreditCard}
+          delay={0}
+        />
+        <StatCard
+          title="Total Volume"
+          value="$4.2M"
+          change="+8.3% from last month"
+          changeType="positive"
+          icon={DollarSign}
+          delay={0.1}
+        />
+        <StatCard
+          title="Batch Processed"
+          value="847"
+          change="94.1% success rate"
+          changeType="positive"
+          icon={Layers}
+          delay={0.2}
+        />
+        <StatCard
+          title="Active Users"
+          value="156"
+          change="+3 new this week"
+          changeType="neutral"
+          icon={Users}
+          delay={0.3}
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:gap-6 xl:grid-cols-3">
@@ -109,7 +137,10 @@ const Dashboard = () => {
           </ResponsiveContainer>
           <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-2">
             {chartData.batchResults.map((item) => (
-              <div key={item.name} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <div
+                key={item.name}
+                className="flex items-center gap-1.5 text-xs text-muted-foreground"
+              >
                 <span
                   className="size-2 rounded-full"
                   style={{ background: toneColor[item.tone] }}

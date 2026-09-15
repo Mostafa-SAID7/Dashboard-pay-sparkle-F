@@ -136,15 +136,8 @@ const AppSidebar = ({ darkMode, toggleDarkMode }: AppSidebarProps) => {
           </AnimatePresence>
         </button>
         {!isMobile && (
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="sidebar-item w-full"
-          >
-            {collapsed ? (
-              <ChevronRight className="h-5 w-5" />
-            ) : (
-              <ChevronLeft className="h-5 w-5" />
-            )}
+          <button onClick={() => setCollapsed(!collapsed)} className="sidebar-item w-full">
+            {collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
             <AnimatePresence>
               {!collapsed && (
                 <motion.span

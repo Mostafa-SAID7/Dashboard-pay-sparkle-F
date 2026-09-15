@@ -56,7 +56,10 @@ const AppSidebar = ({ darkMode, toggleDarkMode }: AppSidebarProps) => {
           </AnimatePresence>
         </div>
         {isMobile && (
-          <button onClick={() => setMobileOpen(false)} className="text-sidebar-foreground/70 hover:text-sidebar-foreground">
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="text-sidebar-foreground/70 hover:text-sidebar-foreground"
+          >
             <X className="w-5 h-5" />
           </button>
         )}
@@ -100,10 +103,19 @@ const AppSidebar = ({ darkMode, toggleDarkMode }: AppSidebarProps) => {
       {/* Bottom actions */}
       <div className="p-3 border-t border-sidebar-border space-y-2">
         <button onClick={toggleDarkMode} className="sidebar-item w-full">
-          {darkMode ? <Sun className="w-5 h-5 flex-shrink-0" /> : <Moon className="w-5 h-5 flex-shrink-0" />}
+          {darkMode ? (
+            <Sun className="w-5 h-5 flex-shrink-0" />
+          ) : (
+            <Moon className="w-5 h-5 flex-shrink-0" />
+          )}
           <AnimatePresence>
             {(isMobile || !collapsed) && (
-              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-sm">
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-sm"
+              >
                 {darkMode ? "Light Mode" : "Dark Mode"}
               </motion.span>
             )}
@@ -114,7 +126,12 @@ const AppSidebar = ({ darkMode, toggleDarkMode }: AppSidebarProps) => {
             {collapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
             <AnimatePresence>
               {!collapsed && (
-                <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-sm">
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="text-sm"
+                >
                   Collapse
                 </motion.span>
               )}

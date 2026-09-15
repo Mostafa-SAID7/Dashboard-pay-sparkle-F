@@ -60,9 +60,7 @@ const SettingsPage = () => {
           </p>
         </div>
         <div className="list-row">
-          <span className="text-sm text-foreground">
-            {isDark ? "Dark mode" : "Light mode"}
-          </span>
+          <span className="text-sm text-foreground">{isDark ? "Dark mode" : "Light mode"}</span>
           <ThemeToggle />
         </div>
       </motion.section>
@@ -118,9 +116,7 @@ const SettingsPage = () => {
             <ToggleSwitch
               label={item}
               checked={enabled[i] ?? false}
-              onChange={() =>
-                setEnabled((prev) => prev.map((v, idx) => (idx === i ? !v : v)))
-              }
+              onChange={() => setEnabled((prev) => prev.map((v, idx) => (idx === i ? !v : v)))}
             />
           </div>
         ))}

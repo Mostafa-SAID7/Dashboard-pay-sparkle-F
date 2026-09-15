@@ -10,7 +10,14 @@ interface StatCardProps {
   delay?: number;
 }
 
-const StatCard = ({ title, value, change, changeType = "neutral", icon: Icon, delay = 0 }: StatCardProps) => {
+const StatCard = ({
+  title,
+  value,
+  change,
+  changeType = "neutral",
+  icon: Icon,
+  delay = 0,
+}: StatCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -24,11 +31,15 @@ const StatCard = ({ title, value, change, changeType = "neutral", icon: Icon, de
           <p className="text-sm text-muted-foreground">{title}</p>
           <p className="text-2xl font-bold text-foreground">{value}</p>
           {change && (
-            <p className={`text-xs font-medium ${
-              changeType === "positive" ? "text-success" :
-              changeType === "negative" ? "text-destructive" :
-              "text-muted-foreground"
-            }`}>
+            <p
+              className={`text-xs font-medium ${
+                changeType === "positive"
+                  ? "text-success"
+                  : changeType === "negative"
+                    ? "text-destructive"
+                    : "text-muted-foreground"
+              }`}
+            >
               {change}
             </p>
           )}

@@ -4,8 +4,20 @@ import { Search, Plus, Edit2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import PaginationControls from "@/components/pay/PaginationControls";
 import { accounts as initialAccounts, formatCurrency, type Account } from "@/lib/mockData";
 import { toast } from "sonner";
@@ -23,9 +35,10 @@ const UsersAccounts = () => {
   const [page, setPage] = useState(1);
 
   const filtered = users
-    .filter(u => {
+    .filter((u) => {
       if (roleFilter !== "all" && u.role !== roleFilter) return false;
-      if (search && !`${u.name} ${u.email}`.toLowerCase().includes(search.toLowerCase())) return false;
+      if (search && !`${u.name} ${u.email}`.toLowerCase().includes(search.toLowerCase()))
+        return false;
       return true;
     })
     .sort((a, b) => {
@@ -48,7 +61,7 @@ const UsersAccounts = () => {
     };
 
     if (editUser) {
-      setUsers(prev => prev.map(u => u.id === editUser.id ? { ...u, ...data } : u));
+      setUsers((prev) => prev.map((u) => (u.id === editUser.id ? { ...u, ...data } : u)));
       toast.success("User updated");
     } else {
       const newUser: Account = {
@@ -58,7 +71,7 @@ const UsersAccounts = () => {
         status: "active",
         lastLogin: new Date().toISOString().slice(0, 10),
       };
-      setUsers(prev => [newUser, ...prev]);
+      setUsers((prev) => [newUser, ...prev]);
       setPage(1);
       toast.success("User added");
     }
@@ -67,25 +80,41 @@ const UsersAccounts = () => {
   };
 
   const handleDelete = (id: string) => {
-    setUsers(prev => prev.filter(u => u.id !== id));
+    setUsers((prev) => prev.filter((u) => u.id !== id));
     toast.success("User removed");
   };
 
   const toggleSort = (field: "name" | "balance") => {
-    if (sortField === field) setSortDir(d => d === "asc" ? "desc" : "asc");
-    else { setSortField(field); setSortDir("asc"); }
+    if (sortField === field) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    else {
+      setSortField(field);
+      setSortDir("asc");
+    }
   };
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between flex-wrap gap-3">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex items-center justify-between flex-wrap gap-3"
+      >
         <div>
           <h1 className="text-3xl font-bold text-foreground">Users & Accounts</h1>
           <p className="text-muted-foreground mt-1">Manage users, roles, and account balances</p>
         </div>
-        <Dialog open={dialogOpen} onOpenChange={(v) => { setDialogOpen(v); if (!v) setEditUser(null); }}>
+        <Dialog
+          open={dialogOpen}
+          onOpenChange={(v) => {
+            setDialogOpen(v);
+            if (!v) setEditUser(null);
+          }}
+        >
           <DialogTrigger asChild>
-            <Button className="gap-2"><Plus className="w-4 h-4" />Add User</Button>
+            <Button className="gap-2">
+              <Plus className="w-4 h-4" />
+              Add User
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -103,7 +132,11 @@ const UsersAccounts = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label>Role</Label>
-                  <select name="role" defaultValue={editUser?.role ?? "user"} className="w-full px-3 py-2 rounded-lg bg-secondary border border-border text-foreground text-sm">
+                  <select
+                    name="role"
+                    defaultValue={editUser?.role ?? "user"}
+                    className="w-full px-3 py-2 rounded-lg bg-secondary border border-border text-foreground text-sm"
+                  >
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
                     <option value="viewer">Viewer</option>
@@ -111,23 +144,51 @@ const UsersAccounts = () => {
                 </div>
                 <div>
                   <Label>Balance</Label>
-                  <Input name="balance" type="number" defaultValue={editUser?.balance ?? 0} required />
+                  <Input
+                    name="balance"
+                    type="number"
+                    defaultValue={editUser?.balance ?? 0}
+                    required
+                  />
                 </div>
               </div>
-              <Button type="submit" className="w-full">{editUser ? "Save Changes" : "Add User"}</Button>
+              <Button type="submit" className="w-full">
+                {editUser ? "Save Changes" : "Add User"}
+              </Button>
             </form>
           </DialogContent>
         </Dialog>
       </motion.div>
 
       {/* Filters */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="glass-card rounded-xl p-4 flex flex-wrap items-center gap-3">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="glass-card rounded-xl p-4 flex flex-wrap items-center gap-3"
+      >
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder="Search users..." className="pl-9" />
+          <Input
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Search users..."
+            className="pl-9"
+          />
         </div>
-        <Select value={roleFilter} onValueChange={(v) => { setRoleFilter(v); setPage(1); }}>
-          <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
+        <Select
+          value={roleFilter}
+          onValueChange={(v) => {
+            setRoleFilter(v);
+            setPage(1);
+          }}
+        >
+          <SelectTrigger className="w-32">
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Roles</SelectItem>
             <SelectItem value="admin">Admin</SelectItem>
@@ -138,21 +199,40 @@ const UsersAccounts = () => {
       </motion.div>
 
       {/* Table */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card rounded-xl overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="glass-card rounded-xl overflow-hidden"
+      >
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border/50">
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase cursor-pointer hover:text-foreground" onClick={() => toggleSort("name")}>
+                <th
+                  className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase cursor-pointer hover:text-foreground"
+                  onClick={() => toggleSort("name")}
+                >
                   Name {sortField === "name" && (sortDir === "asc" ? "↑" : "↓")}
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Email</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Role</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase cursor-pointer hover:text-foreground" onClick={() => toggleSort("balance")}>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">
+                  Email
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">
+                  Role
+                </th>
+                <th
+                  className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase cursor-pointer hover:text-foreground"
+                  onClick={() => toggleSort("balance")}
+                >
                   Balance {sortField === "balance" && (sortDir === "asc" ? "↑" : "↓")}
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Status</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Actions</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">
+                  Status
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -167,29 +247,45 @@ const UsersAccounts = () => {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
-                        {u.name.split(" ").map(n => n[0]).join("")}
+                        {u.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </div>
                       <span className="text-sm font-medium text-foreground">{u.name}</span>
                     </div>
                   </td>
                   <td className="px-4 py-3 text-sm text-muted-foreground">{u.email}</td>
                   <td className="px-4 py-3">
-                    <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                      u.role === "admin" ? "bg-primary/10 text-primary" :
-                      u.role === "user" ? "bg-accent/10 text-accent" :
-                      "bg-muted text-muted-foreground"
-                    }`}>{u.role}</span>
+                    <span
+                      className={`text-xs font-medium px-2 py-1 rounded-full ${
+                        u.role === "admin"
+                          ? "bg-primary/10 text-primary"
+                          : u.role === "user"
+                            ? "bg-accent/10 text-accent"
+                            : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {u.role}
+                    </span>
                   </td>
-                  <td className="px-4 py-3 text-sm font-semibold text-foreground">{formatCurrency(u.balance, u.currency)}</td>
+                  <td className="px-4 py-3 text-sm font-semibold text-foreground">
+                    {formatCurrency(u.balance, u.currency)}
+                  </td>
                   <td className="px-4 py-3">
-                    <span className={`text-xs font-medium ${u.status === "active" ? "text-success" : "text-muted-foreground"}`}>
+                    <span
+                      className={`text-xs font-medium ${u.status === "active" ? "text-success" : "text-muted-foreground"}`}
+                    >
                       {u.status}
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
                       <button
-                        onClick={() => { setEditUser(u); setDialogOpen(true); }}
+                        onClick={() => {
+                          setEditUser(u);
+                          setDialogOpen(true);
+                        }}
                         className="p-1.5 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
                       >
                         <Edit2 className="w-4 h-4" />
@@ -207,7 +303,13 @@ const UsersAccounts = () => {
             </tbody>
           </table>
         </div>
-        <PaginationControls currentPage={page} totalPages={totalPages} onPageChange={setPage} totalItems={filtered.length} pageSize={PAGE_SIZE} />
+        <PaginationControls
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+          totalItems={filtered.length}
+          pageSize={PAGE_SIZE}
+        />
       </motion.div>
     </div>
   );
