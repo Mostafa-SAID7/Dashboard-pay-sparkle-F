@@ -55,11 +55,12 @@ export const chartData = {
     { month: "Feb", ACH: 200, RTGS: 55, WPS: 120 },
     { month: "Mar", ACH: 220, RTGS: 70, WPS: 135 },
   ],
+  // Tones map to design tokens at render time — no colour values in data.
   batchResults: [
-    { name: "Success", value: 847, fill: "hsl(142, 71%, 45%)" },
-    { name: "Failed", value: 53, fill: "hsl(0, 84%, 60%)" },
-    { name: "Pending", value: 100, fill: "hsl(38, 92%, 50%)" },
-  ],
+    { name: "Success", value: 847, tone: "success" },
+    { name: "Failed", value: 53, tone: "failed" },
+    { name: "Pending", value: 100, tone: "pending" },
+  ] as { name: string; value: number; tone: "success" | "failed" | "pending" }[],
 };
 
 export const formatCurrency = (amount: number, currency = "USD") => {
