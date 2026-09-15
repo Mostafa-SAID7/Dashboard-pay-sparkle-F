@@ -1,23 +1,23 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { RouterProvider } from "@tanstack/react-router";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Route } from "@/routes/__root";
+import { routeTree } from "@/routeTree.gen";
 
 const queryClient = new QueryClient();
+
+const router = createRouter({
+  routeTree,
+  context: { queryClient },
+  defaultPreloadStaleTime: 0,
+});
 
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }
 }
-
-// Create router from the root route
-const router = Route.createRouter({
-  context: { queryClient },
-  defaultPreloadStaleTime: 0,
-});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
