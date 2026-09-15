@@ -7,7 +7,8 @@ The root [README](../README.md) stays high-level; everything deeper lives here.
 |----------|-------------|
 | [Architecture](./architecture.md) | App structure, routing, components, data flow |
 | [Development](./development.md) | Local setup, scripts, conventions, testing |
-| [Deployment](./deployment.md) | Production & Vercel notes |
+| [Deployment](./deployment.md) | Vercel / production notes |
+| [Releases](./releases.md) | Versioning, tags, automatic releases |
 | [Contributing](./contributing.md) | How to contribute, PR process, code style |
 
 ---
