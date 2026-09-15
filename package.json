@@ -1,5 +1,6 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "payflow",
+  "version": "1.0.0",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -9,7 +10,8 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "echo \"No tests yet\" && exit 0"
   },
   "overrides": {
     "rolldown": "1.2.1"
